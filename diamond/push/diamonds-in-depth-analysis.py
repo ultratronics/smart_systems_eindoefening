@@ -40,9 +40,10 @@
 
 # ## 1.1) Importing Libraries
 
-# In[238]:
+# In[1]:
 
 
+import tailer
 import streamlit as st
 st.text('hello test 123 does this work?')
 
@@ -129,18 +130,24 @@ plt.rcParams.update(params)
 # ## 1.2) Extract Dataset
 # * Specify the location to the Dataset and Import them.
 
-# In[239]:
+# In[2]:
 
 
 df = pd.read_csv('diamonds.csv')
 diamonds = df.copy()
 
 
-# In[240]:
+# In[3]:
 
 
 # How the data looks
 df.head()
+
+
+# In[4]:
+
+
+st.dataframe(df.head())
 
 
 # ## 1.3) Features
@@ -167,7 +174,7 @@ df.head()
 
 # ![](https://i.imgur.com/Bbf0GWk.jpg)
 
-# In[241]:
+# In[5]:
 
 
 # We'll Explore All the features in the Later Part, Now let's look for Null Values if any..
@@ -175,26 +182,26 @@ df.head()
 
 # ## 1.4) Drop the 'Unnamed: 0' column as we already have Index.
 
-# In[242]:
+# In[6]:
 
 
 df.drop(['Unnamed: 0'] , axis=1 , inplace=True)
 df.head()
 
 
-# In[243]:
+# In[7]:
 
 
 df.shape
 
 
-# In[244]:
+# In[8]:
 
 
 # So, We have 53,940 rows and 10 columns
 
 
-# In[245]:
+# In[9]:
 
 
 df.info()
@@ -202,7 +209,7 @@ df.info()
 
 # ## 1.5) Examine NaN Values
 
-# In[246]:
+# In[10]:
 
 
 # It seems there are no Null Values.
@@ -210,7 +217,7 @@ df.info()
 df.isnull().sum()
 
 
-# In[247]:
+# In[11]:
 
 
 msno.matrix(df) # just to visualize. no missing values.
@@ -218,7 +225,7 @@ msno.matrix(df) # just to visualize. no missing values.
 
 # ### Great, So there are no NaN values.
 
-# In[248]:
+# In[12]:
 
 
 df.describe()
@@ -230,13 +237,13 @@ df.describe()
 
 # ### Let's Have a look at them.
 
-# In[249]:
+# In[13]:
 
 
 df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 
-# In[250]:
+# In[14]:
 
 
 len(df[(df['x']==0) | (df['y']==0) | (df['z']==0)])
@@ -247,20 +254,20 @@ len(df[(df['x']==0) | (df['y']==0) | (df['z']==0)])
 
 # ## 1.6) Dropping Rows with Dimensions 'Zero'.
 
-# In[251]:
+# In[15]:
 
 
 df = df[(df[['x','y','z']] != 0).all(axis=1)]
 
 
-# In[252]:
+# In[16]:
 
 
 # Just to Confirm
 df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 
-# In[253]:
+# In[17]:
 
 
 # Nice and Clean. :)
@@ -268,10 +275,11 @@ df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 # ## 1.7) Scaling of all Features
 
-# In[254]:
+# In[18]:
 
 
 sns.factorplot(data=df , kind='box' , size=7, aspect=2.5)
+st.pyplot()
 
 
 # **The Values are Distributed over a Small Scale.**
@@ -285,7 +293,7 @@ sns.factorplot(data=df , kind='box' , size=7, aspect=2.5)
 # <a id="there_you_go_2"></a>
 # # 2) Correlation Between Features
 
-# In[255]:
+# In[19]:
 
 
 # Correlation Map
@@ -329,21 +337,27 @@ sns.heatmap(data=corr, square=True , annot=True, cbar=True)
 
 # ![](https://i.imgur.com/hA3oat5.png)
 
-# In[256]:
+# In[20]:
 
 
 # Visualize via kde plots
 
 
-# In[257]:
+# In[21]:
 
 
 sns.kdeplot(df['carat'], shade=True , color='r')
 
 
+# In[22]:
+
+
+st.area_chart(df['carat'])
+
+
 # ### Carat vs Price
 
-# In[258]:
+# In[23]:
 
 
 sns.jointplot(x='carat' , y='price' , data=df , size=5)
@@ -367,7 +381,7 @@ sns.jointplot(x='carat' , y='price' , data=df , size=5)
 
 # ![](https://i.imgur.com/6PannTm.jpg)
 
-# In[259]:
+# In[24]:
 
 
 sns.factorplot(x='cut', data=df , kind='count',aspect=2.5 )
@@ -375,13 +389,13 @@ sns.factorplot(x='cut', data=df , kind='count',aspect=2.5 )
 
 # ## Cut vs Price
 
-# In[260]:
+# In[25]:
 
 
 sns.factorplot(x='cut', y='price', data=df, kind='box' ,aspect=2.5 )
 
 
-# In[261]:
+# In[26]:
 
 
 # Understanding Box Plot :
@@ -409,7 +423,7 @@ sns.factorplot(x='cut', y='price', data=df, kind='box' ,aspect=2.5 )
 
 # ![](https://i.imgur.com/Ij090Kn.jpg)
 
-# In[262]:
+# In[27]:
 
 
 sns.factorplot(x='color', data=df , kind='count',aspect=2.5 )
@@ -417,7 +431,7 @@ sns.factorplot(x='color', data=df , kind='count',aspect=2.5 )
 
 # ### Color vs Price
 
-# In[263]:
+# In[28]:
 
 
 sns.factorplot(x='color', y='price' , data=df , kind='violin', aspect=2.5)
@@ -438,7 +452,7 @@ sns.factorplot(x='color', y='price' , data=df , kind='violin', aspect=2.5)
 
 # ![](https://i.imgur.com/fLbAstc.jpg)
 
-# In[264]:
+# In[29]:
 
 
 labels = df.clarity.unique().tolist()
@@ -454,7 +468,7 @@ fig.set_size_inches(6,6)
 plt.show()
 
 
-# In[265]:
+# In[30]:
 
 
 sns.boxplot(x='clarity', y='price', data=df )
@@ -474,13 +488,13 @@ sns.boxplot(x='clarity', y='price', data=df )
 # 
 # [Click Here to Learn More about How Depth Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[266]:
+# In[31]:
 
 
 plt.hist('depth' , data=df , bins=25)
 
 
-# In[267]:
+# In[ ]:
 
 
 sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
@@ -502,13 +516,13 @@ sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
 # 
 # [Click Here to Learn More about How Table Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[268]:
+# In[ ]:
 
 
 sns.kdeplot(df['table'] ,shade=True , color='orange')
 
 
-# In[269]:
+# In[ ]:
 
 
 sns.jointplot(x='table', y='price', data=df , size=5)
@@ -524,7 +538,7 @@ sns.jointplot(x='table', y='price', data=df , size=5)
 
 # * **As the Dimensions increases, Obviously the Prices Rises as more and more Natural Resources are Utilised.**
 
-# In[270]:
+# In[ ]:
 
 
 sns.kdeplot(df['x'] ,shade=True , color='r' )
@@ -546,14 +560,14 @@ plt.xlim(2,10)
 
 # ## 4.1) Create New Feature 'Volume'
 
-# In[271]:
+# In[ ]:
 
 
 df['volume'] = df['x']*df['y']*df['z']
 df.head()
 
 
-# In[272]:
+# In[ ]:
 
 
 plt.figure(figsize=(5,5))
@@ -704,8 +718,6 @@ print('R2     : %0.2f ' % r2)
 
 # ### Tuning Parameters
 
-# # Thank You :)
-
 # In[ ]:
 
 
@@ -715,13 +727,21 @@ print('R2     : %0.2f ' % r2)
 # In[ ]:
 
 
-get_ipython().system("jupyter nbconvert --output-dir='./push' --to script diamonds-in-depth-analysis.ipynb")
+get_ipython().system("jupyter nbconvert --output-dir='.\\push' --to script diamonds-in-depth-analysis.ipynb")
 
 
 # In[ ]:
 
 
-get_ipython().system('head -n -9 ./push/diamonds-in-depth-analysis.py > ./push/pushreal/diamonds-in-depth-analysis2.py ')
+
+#tailer.head( -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
+#tailer.head(open() -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
+
+
+# In[ ]:
+
+
+get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
 
 
 # In[ ]:
