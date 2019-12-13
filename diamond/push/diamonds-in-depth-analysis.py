@@ -43,7 +43,7 @@
 # In[1]:
 
 
-import tailer
+
 import streamlit as st
 st.text('hello test 123 does this work?')
 
@@ -494,7 +494,7 @@ sns.boxplot(x='clarity', y='price', data=df )
 plt.hist('depth' , data=df , bins=25)
 
 
-# In[ ]:
+# In[32]:
 
 
 sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
@@ -516,7 +516,7 @@ sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
 # 
 # [Click Here to Learn More about How Table Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[ ]:
+# In[33]:
 
 
 sns.kdeplot(df['table'] ,shade=True , color='orange')
@@ -696,7 +696,10 @@ models = ['Linear Regression' , 'Lasso Regression' , 'AdaBoost Regression' , 'Ri
 
 
 clf_rf = RandomForestRegressor()
-clf_rf.fit(X_train , y_train)
+#clf_rf.fit(X_train , y_train)
+import pickle
+clf_rf = pickle.load(open("Model.pkl", "+rb"))
+
 accuracies = cross_val_score(estimator = clf_rf, X = X_train, y = y_train, cv = 5,verbose = 1)
 y_pred = clf_rf.predict(X_test)
 print('')
@@ -715,37 +718,4 @@ print('MAE    : %0.2f ' % mae)
 print('RMSE   : %0.2f ' % rmse)
 print('R2     : %0.2f ' % r2)
 
-
-# ### Tuning Parameters
-
-# In[ ]:
-
-
-#test
-
-
-# In[ ]:
-
-
-get_ipython().system("jupyter nbconvert --output-dir='.\\push' --to script diamonds-in-depth-analysis.ipynb")
-
-
-# In[ ]:
-
-
-
-#tailer.head( -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
-#tailer.head(open() -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
-
-
-# In[ ]:
-
-
-get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
-
-
-# In[ ]:
-
-
-get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
 
