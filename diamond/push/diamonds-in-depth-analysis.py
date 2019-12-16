@@ -43,7 +43,6 @@
 # In[1]:
 
 
-
 import streamlit as st
 st.text('hello test 123 does this work?')
 
@@ -108,8 +107,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
 import seaborn as sns
-import missingno as msno
-
+import missingno as msno 
 
 
 # Configure visualisations
@@ -144,10 +142,18 @@ diamonds = df.copy()
 df.head()
 
 
+# ## Streamlit Code
+
 # In[4]:
 
 
 st.dataframe(df.head())
+
+
+# In[ ]:
+
+
+
 
 
 # ## 1.3) Features
@@ -352,6 +358,10 @@ sns.kdeplot(df['carat'], shade=True , color='r')
 # In[22]:
 
 
+# Select box for options
+Options = st.selectbox("Select Your options:", df['carat'])
+"You selected: ", Options
+
 st.area_chart(df['carat'])
 
 
@@ -494,7 +504,7 @@ sns.boxplot(x='clarity', y='price', data=df )
 plt.hist('depth' , data=df , bins=25)
 
 
-# In[32]:
+# In[ ]:
 
 
 sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
@@ -516,7 +526,7 @@ sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
 # 
 # [Click Here to Learn More about How Table Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[33]:
+# In[ ]:
 
 
 sns.kdeplot(df['table'] ,shade=True , color='orange')
@@ -700,6 +710,7 @@ clf_rf = RandomForestRegressor()
 import pickle
 clf_rf = pickle.load(open("Model.pkl", "+rb"))
 
+
 accuracies = cross_val_score(estimator = clf_rf, X = X_train, y = y_train, cv = 5,verbose = 1)
 y_pred = clf_rf.predict(X_test)
 print('')
@@ -718,4 +729,75 @@ print('MAE    : %0.2f ' % mae)
 print('RMSE   : %0.2f ' % rmse)
 print('R2     : %0.2f ' % r2)
 
+
+# In[ ]:
+
+
+# wat zit in de variable
+print(clf_rf)
+
+
+# ## Streamit Code
+
+# In[ ]:
+
+
+# titel van de pagina
+st.title('Data Analyse van Diamonds met Streamlit')
+
+
+# In[ ]:
+
+
+# Checkbox
+#df = clf_rf
+if st.sidebar.checkbox("Show DataFrame"):
+    st.dataframe(clf_rf.head())
+
+
+# In[ ]:
+
+
+if st.sidebar.checkbox("Show LijnGrafiek clf_rf"):
+    st.line_chart(clf_rf)
+
+
+# In[ ]:
+
+
+
+
+
+# ### Tuning Parameters
+
+# In[ ]:
+
+
+#test
+
+
+# In[ ]:
+
+
+get_ipython().system("jupyter nbconvert --output-dir='.\\push' --to script diamonds-in-depth-analysis.ipynb")
+
+
+# In[ ]:
+
+
+
+#tailer.head( -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
+#tailer.head(open() -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
+
+
+# In[ ]:
+
+
+get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
+
+
+# In[ ]:
+
+
+#!git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master
 
