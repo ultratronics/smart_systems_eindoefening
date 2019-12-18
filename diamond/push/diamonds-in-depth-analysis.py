@@ -40,10 +40,14 @@
 
 # ## 1.1) Importing Libraries
 
-# In[1]:
+# In[ ]:
 
 
 import streamlit as st
+import plotly as px
+from PIL import Image 
+#import cv2
+#print (cv2.__version__)
 st.text('hello test 123 does this work?')
 
 # Ignore warnings :
@@ -128,14 +132,14 @@ plt.rcParams.update(params)
 # ## 1.2) Extract Dataset
 # * Specify the location to the Dataset and Import them.
 
-# In[2]:
+# In[ ]:
 
 
 df = pd.read_csv('diamonds.csv')
 diamonds = df.copy()
 
 
-# In[3]:
+# In[ ]:
 
 
 # How the data looks
@@ -144,7 +148,7 @@ df.head()
 
 # ## Streamlit Code
 
-# In[4]:
+# In[ ]:
 
 
 st.dataframe(df.head())
@@ -180,7 +184,7 @@ st.dataframe(df.head())
 
 # ![](https://i.imgur.com/Bbf0GWk.jpg)
 
-# In[5]:
+# In[ ]:
 
 
 # We'll Explore All the features in the Later Part, Now let's look for Null Values if any..
@@ -188,26 +192,26 @@ st.dataframe(df.head())
 
 # ## 1.4) Drop the 'Unnamed: 0' column as we already have Index.
 
-# In[6]:
+# In[ ]:
 
 
 df.drop(['Unnamed: 0'] , axis=1 , inplace=True)
 df.head()
 
 
-# In[7]:
+# In[ ]:
 
 
 df.shape
 
 
-# In[8]:
+# In[ ]:
 
 
 # So, We have 53,940 rows and 10 columns
 
 
-# In[9]:
+# In[ ]:
 
 
 df.info()
@@ -215,7 +219,7 @@ df.info()
 
 # ## 1.5) Examine NaN Values
 
-# In[10]:
+# In[ ]:
 
 
 # It seems there are no Null Values.
@@ -223,7 +227,7 @@ df.info()
 df.isnull().sum()
 
 
-# In[11]:
+# In[ ]:
 
 
 msno.matrix(df) # just to visualize. no missing values.
@@ -231,7 +235,7 @@ msno.matrix(df) # just to visualize. no missing values.
 
 # ### Great, So there are no NaN values.
 
-# In[12]:
+# In[ ]:
 
 
 df.describe()
@@ -243,13 +247,13 @@ df.describe()
 
 # ### Let's Have a look at them.
 
-# In[13]:
+# In[ ]:
 
 
 df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 
-# In[14]:
+# In[ ]:
 
 
 len(df[(df['x']==0) | (df['y']==0) | (df['z']==0)])
@@ -260,20 +264,20 @@ len(df[(df['x']==0) | (df['y']==0) | (df['z']==0)])
 
 # ## 1.6) Dropping Rows with Dimensions 'Zero'.
 
-# In[15]:
+# In[ ]:
 
 
 df = df[(df[['x','y','z']] != 0).all(axis=1)]
 
 
-# In[16]:
+# In[ ]:
 
 
 # Just to Confirm
 df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 
-# In[17]:
+# In[ ]:
 
 
 # Nice and Clean. :)
@@ -281,7 +285,7 @@ df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 # ## 1.7) Scaling of all Features
 
-# In[18]:
+# In[ ]:
 
 
 sns.factorplot(data=df , kind='box' , size=7, aspect=2.5)
@@ -299,7 +303,7 @@ st.pyplot()
 # <a id="there_you_go_2"></a>
 # # 2) Correlation Between Features
 
-# In[19]:
+# In[ ]:
 
 
 # Correlation Map
@@ -343,19 +347,19 @@ sns.heatmap(data=corr, square=True , annot=True, cbar=True)
 
 # ![](https://i.imgur.com/hA3oat5.png)
 
-# In[20]:
+# In[ ]:
 
 
 # Visualize via kde plots
 
 
-# In[21]:
+# In[ ]:
 
 
 sns.kdeplot(df['carat'], shade=True , color='r')
 
 
-# In[22]:
+# In[ ]:
 
 
 # Select box for options
@@ -367,7 +371,7 @@ st.area_chart(df['carat'])
 
 # ### Carat vs Price
 
-# In[23]:
+# In[ ]:
 
 
 sns.jointplot(x='carat' , y='price' , data=df , size=5)
@@ -391,7 +395,7 @@ sns.jointplot(x='carat' , y='price' , data=df , size=5)
 
 # ![](https://i.imgur.com/6PannTm.jpg)
 
-# In[24]:
+# In[ ]:
 
 
 sns.factorplot(x='cut', data=df , kind='count',aspect=2.5 )
@@ -399,13 +403,13 @@ sns.factorplot(x='cut', data=df , kind='count',aspect=2.5 )
 
 # ## Cut vs Price
 
-# In[25]:
+# In[ ]:
 
 
 sns.factorplot(x='cut', y='price', data=df, kind='box' ,aspect=2.5 )
 
 
-# In[26]:
+# In[ ]:
 
 
 # Understanding Box Plot :
@@ -433,7 +437,7 @@ sns.factorplot(x='cut', y='price', data=df, kind='box' ,aspect=2.5 )
 
 # ![](https://i.imgur.com/Ij090Kn.jpg)
 
-# In[27]:
+# In[ ]:
 
 
 sns.factorplot(x='color', data=df , kind='count',aspect=2.5 )
@@ -441,7 +445,7 @@ sns.factorplot(x='color', data=df , kind='count',aspect=2.5 )
 
 # ### Color vs Price
 
-# In[28]:
+# In[ ]:
 
 
 sns.factorplot(x='color', y='price' , data=df , kind='violin', aspect=2.5)
@@ -462,7 +466,7 @@ sns.factorplot(x='color', y='price' , data=df , kind='violin', aspect=2.5)
 
 # ![](https://i.imgur.com/fLbAstc.jpg)
 
-# In[29]:
+# In[ ]:
 
 
 labels = df.clarity.unique().tolist()
@@ -478,7 +482,7 @@ fig.set_size_inches(6,6)
 plt.show()
 
 
-# In[30]:
+# In[ ]:
 
 
 sns.boxplot(x='clarity', y='price', data=df )
@@ -498,7 +502,7 @@ sns.boxplot(x='clarity', y='price', data=df )
 # 
 # [Click Here to Learn More about How Depth Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[31]:
+# In[ ]:
 
 
 plt.hist('depth' , data=df , bins=25)
@@ -737,6 +741,22 @@ print('R2     : %0.2f ' % r2)
 print(clf_rf)
 
 
+# In[ ]:
+
+
+# wat zit in de variable
+#LegoX = pickle.load(open("x.pickle", "+rb"))
+#print(LegoX)
+
+
+# In[ ]:
+
+
+# wat zit in de variable
+#LegoY = pickle.load(open("y.pickle", "+rb"))
+#print(LegoY)
+
+
 # ## Streamit Code
 
 # In[ ]:
@@ -752,7 +772,7 @@ st.title('Data Analyse van Diamonds met Streamlit')
 # Checkbox
 #df = clf_rf
 if st.sidebar.checkbox("Show DataFrame"):
-    st.dataframe(clf_rf.head())
+    st.dataframe(clf_rf)
 
 
 # In[ ]:
@@ -765,7 +785,16 @@ if st.sidebar.checkbox("Show LijnGrafiek clf_rf"):
 # In[ ]:
 
 
+# display picture
+Fotos = { "02300BL": "http://11500991.pxl-ea-ict.be/SmartSys/02300%20BLUE/02300_BLUE_1.jpg",
+        "3198LG": "http://11500991.pxl-ea-ict.be/SmartSys/3198%20LIGHTGREEN/3198_lightgreen_3.jpg",
+        "3437BR": "http://11500991.pxl-ea-ict.be/SmartSys/3437%20BROWN/3437_brown_2.jpg",
+        "3437GR": "http://11500991.pxl-ea-ict.be/SmartSys/3437%20GREEN/3437_green_1.jpg",
+        "3437LB": "http://11500991.pxl-ea-ict.be/SmartSys/3437%20LIGHTBLUE/jason/3437_lightblue_5.jpg",
+        "6437YE": "http://11500991.pxl-ea-ict.be/SmartSys/6474%20YELLOW/3437_yellow_3.jpg"}
 
+Foto = st.sidebar.selectbox("Kies Foto", list(Fotos.keys()),0)
+st.image(Fotos[Foto], use_column_width= True, caption= Fotos[Foto])
 
 
 # ### Tuning Parameters
@@ -785,7 +814,7 @@ get_ipython().system("jupyter nbconvert --output-dir='.\\push' --to script diamo
 # In[ ]:
 
 
-
+#sed '757,759d' .\push\diamonds-in-depth-analysis.py
 #tailer.head( -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
 #tailer.head(open() -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
 
