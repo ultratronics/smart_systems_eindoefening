@@ -45,7 +45,8 @@
 
 import streamlit as st
 import plotly as px
-from PIL import Image 
+from PIL import Image
+import os
 #import cv2
 #print (cv2.__version__)
 #st.text('hello test 123 does this work?')
@@ -136,17 +137,29 @@ plt.rcParams.update(params)
 st.title('Data Analyse van Diamonds met Streamlit')
 
 
+# In[3]:
+
+
+#def file_selector(folder_path='C:\Users\Kristof\Documents\smart_systems_eindoefening\diamond\push\pushreal'):      #.\push\pushreal
+#    filenames = os.listdir(folder_path)
+#    selected_filename = st.selectbox('Select a file', filenames)
+#    return os.path.join(folder_path, selected_filename)
+
+#filename = file_selector()
+#st.write('You selected `%s`' % filename)
+
+
 # ## 1.2) Extract Dataset
 # * Specify the location to the Dataset and Import them.
 
-# In[3]:
+# In[4]:
 
 
 df = pd.read_csv('diamonds.csv')
 #diamonds = df.copy()
 
 
-# In[4]:
+# In[5]:
 
 
 # How the data looks
@@ -155,7 +168,7 @@ df.head()
 
 # ## Streamlit Code
 
-# In[5]:
+# In[6]:
 
 
 # printen de 5 eerste uit.
@@ -193,7 +206,7 @@ df.head()
 
 # ![](https://i.imgur.com/Bbf0GWk.jpg)
 
-# In[6]:
+# In[7]:
 
 
 # We'll Explore All the features in the Later Part, Now let's look for Null Values if any..
@@ -201,32 +214,32 @@ df.head()
 
 # ## 1.4) Drop the 'Unnamed: 0' column as we already have Index.
 
-# In[7]:
+# In[8]:
 
 
 df.drop(['Unnamed: 0'] , axis=1 , inplace=True)
 df.head()
 
 
-# In[8]:
+# In[9]:
 
 
 df.tail()
 
 
-# In[9]:
+# In[10]:
 
 
 df.shape
 
 
-# In[10]:
+# In[11]:
 
 
 # So, We have 53,940 rows and 10 columns
 
 
-# In[11]:
+# In[12]:
 
 
 df.info()
@@ -234,7 +247,7 @@ df.info()
 
 # ## 1.5) Examine NaN Values
 
-# In[12]:
+# In[13]:
 
 
 # It seems there are no Null Values.
@@ -242,7 +255,7 @@ df.info()
 df.isnull().sum()
 
 
-# In[13]:
+# In[14]:
 
 
 msno.matrix(df) # just to visualize. no missing values.
@@ -250,7 +263,7 @@ msno.matrix(df) # just to visualize. no missing values.
 
 # ### Great, So there are no NaN values.
 
-# In[14]:
+# In[15]:
 
 
 df.describe()
@@ -262,13 +275,13 @@ df.describe()
 
 # ### Let's Have a look at them.
 
-# In[15]:
+# In[16]:
 
 
 df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 
-# In[16]:
+# In[17]:
 
 
 len(df[(df['x']==0) | (df['y']==0) | (df['z']==0)])
@@ -279,7 +292,7 @@ len(df[(df['x']==0) | (df['y']==0) | (df['z']==0)])
 
 # ## Streamlit keuze menu voor data 
 
-# In[17]:
+# In[18]:
 
 
 # display data
@@ -294,7 +307,7 @@ Selected = st.sidebar.selectbox("Kies Wat je wilt zien", list(Keuze.keys()),0)
 st.write(Keuze[Selected], use_column_width= True, caption= Keuze[Selected])
 
 
-# In[18]:
+# In[19]:
 
 
 # if Selected == "loc":
@@ -303,20 +316,20 @@ st.write(Keuze[Selected], use_column_width= True, caption= Keuze[Selected])
 
 # ## 1.6) Dropping Rows with Dimensions 'Zero'.
 
-# In[19]:
+# In[20]:
 
 
 df = df[(df[['x','y','z']] != 0).all(axis=1)]
 
 
-# In[20]:
+# In[21]:
 
 
 # Just to Confirm
 df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 
-# In[21]:
+# In[22]:
 
 
 # Nice and Clean. :
@@ -324,7 +337,7 @@ df.loc[(df['x']==0) | (df['y']==0) | (df['z']==0)]
 
 # ## 1.7) Scaling of all Features
 
-# In[22]:
+# In[23]:
 
 
 sns.factorplot(data=df , kind='box' , size=7, aspect=2.5)
@@ -342,7 +355,7 @@ st.pyplot()
 # <a id="there_you_go_2"></a>
 # # 2) Correlation Between Features
 
-# In[23]:
+# In[24]:
 
 
 # Correlation Map
@@ -387,19 +400,19 @@ st.pyplot()
 
 # ![](https://i.imgur.com/hA3oat5.png)
 
-# In[24]:
+# In[25]:
 
 
 # Visualize via kde plots
 
 
-# In[25]:
+# In[26]:
 
 
 sns.kdeplot(df['carat'], shade=True , color='r')
 
 
-# In[26]:
+# In[27]:
 
 
 # Select box for options
@@ -411,7 +424,7 @@ st.area_chart(df['carat'])
 
 # ## Streamlit Code
 
-# In[27]:
+# In[28]:
 
 
 # display data
@@ -426,7 +439,7 @@ Selected2 = st.sidebar.selectbox("Kies Wat je wilt zien op de grafiek_1", list(V
 st.area_chart(Value[Selected2])
 
 
-# In[28]:
+# In[29]:
 
 
 # display data
@@ -445,7 +458,7 @@ sns.jointplot(x= SelectedX , y= SelectedY , data=df , size=5)
 st.pyplot()
 
 
-# In[29]:
+# In[30]:
 
 
 plt.hist('depth' , data=df , bins=25)
@@ -462,13 +475,14 @@ BinsX = st.sidebar.number_input("Insert Nummer: ")
 #st.write(Value[Selected], use_column_width= True, caption= Value[Selected2])
 
 st.text("Show Histogram_2")
-plt.hist(HistValue , data= df , bins= (1 + BinsX) )
-st.pyplot()
+#plt.hist(HistValue , data= df , bins= (1 + BinsX) )
+#st.bar_ch
+#st.pyplot()
 
 
 # ### Carat vs Price
 
-# In[30]:
+# In[31]:
 
 
 sns.jointplot(x='carat' , y='price' , data=df , size=5)
@@ -492,7 +506,7 @@ sns.jointplot(x='carat' , y='price' , data=df , size=5)
 
 # ![](https://i.imgur.com/6PannTm.jpg)
 
-# In[31]:
+# In[32]:
 
 
 sns.factorplot(x='cut', data=df , kind='count',aspect=2.5 )
@@ -500,13 +514,13 @@ sns.factorplot(x='cut', data=df , kind='count',aspect=2.5 )
 
 # ## Cut vs Price
 
-# In[32]:
+# In[33]:
 
 
 sns.factorplot(x='cut', y='price', data=df, kind='box' ,aspect=2.5 )
 
 
-# In[33]:
+# In[34]:
 
 
 # Understanding Box Plot :
@@ -534,7 +548,7 @@ sns.factorplot(x='cut', y='price', data=df, kind='box' ,aspect=2.5 )
 
 # ![](https://i.imgur.com/Ij090Kn.jpg)
 
-# In[34]:
+# In[35]:
 
 
 sns.factorplot(x='color', data=df , kind='count',aspect=2.5 )
@@ -542,7 +556,7 @@ sns.factorplot(x='color', data=df , kind='count',aspect=2.5 )
 
 # ### Color vs Price
 
-# In[35]:
+# In[36]:
 
 
 sns.factorplot(x='color', y='price' , data=df , kind='violin', aspect=2.5)
@@ -563,7 +577,7 @@ sns.factorplot(x='color', y='price' , data=df , kind='violin', aspect=2.5)
 
 # ![](https://i.imgur.com/fLbAstc.jpg)
 
-# In[36]:
+# In[37]:
 
 
 labels = df.clarity.unique().tolist()
@@ -579,7 +593,7 @@ fig.set_size_inches(6,6)
 plt.show()
 
 
-# In[37]:
+# In[38]:
 
 
 sns.boxplot(x='clarity', y='price', data=df )
@@ -599,13 +613,13 @@ sns.boxplot(x='clarity', y='price', data=df )
 # 
 # [Click Here to Learn More about How Depth Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[38]:
+# In[39]:
 
 
 plt.hist('depth' , data=df , bins=25)
 
 
-# In[39]:
+# In[40]:
 
 
 sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
@@ -627,13 +641,13 @@ sns.jointplot(x='depth', y='price' , data=df , kind='regplot', size=5)
 # 
 # [Click Here to Learn More about How Table Affects the Price of Diamonds.](https://beyond4cs.com/grading/depth-and-table-values/)
 
-# In[40]:
+# In[41]:
 
 
 sns.kdeplot(df['table'] ,shade=True , color='orange')
 
 
-# In[41]:
+# In[ ]:
 
 
 sns.jointplot(x='table', y='price', data=df , size=5)
@@ -649,7 +663,7 @@ sns.jointplot(x='table', y='price', data=df , size=5)
 
 # * **As the Dimensions increases, Obviously the Prices Rises as more and more Natural Resources are Utilised.**
 
-# In[42]:
+# In[ ]:
 
 
 sns.kdeplot(df['x'] ,shade=True , color='r' )
@@ -671,14 +685,14 @@ plt.xlim(2,10)
 
 # ## 4.1) Create New Feature 'Volume'
 
-# In[43]:
+# In[ ]:
 
 
 df['volume'] = df['x']*df['y']*df['z']
 df.head()
 
 
-# In[44]:
+# In[ ]:
 
 
 plt.figure(figsize=(5,5))
@@ -690,7 +704,7 @@ plt.xlim(0,1000)
 plt.ylim(0,50000)
 
 
-# In[45]:
+# In[ ]:
 
 
 sns.jointplot(x='volume', y='price' , data=df, size=5)
@@ -700,7 +714,7 @@ sns.jointplot(x='volume', y='price' , data=df, size=5)
 
 # ## 4.2) Drop X, Y, Z
 
-# In[46]:
+# In[ ]:
 
 
 df.drop(['x','y','z'], axis=1, inplace= True)
@@ -719,7 +733,7 @@ df.drop(['x','y','z'], axis=1, inplace= True)
 # * **Label the Categorical Features with digits to Distinguish.**
 # * **As we can't feed String data for Modelling.**
 
-# In[47]:
+# In[ ]:
 
 
 label_cut = LabelEncoder()
@@ -732,7 +746,7 @@ df['color'] = label_color.fit_transform(df['color'])
 df['clarity'] = label_clarity.fit_transform(df['clarity'])
 
 
-# In[48]:
+# In[ ]:
 
 
 #df.head()
@@ -744,13 +758,13 @@ df['clarity'] = label_clarity.fit_transform(df['clarity'])
 # * **Divide the Dataset into Train and Test, So that we can fit the Train for Modelling Algos and Predict on Test.**
 # * **Then Apply Feature Scaling although it's not neccessary in this case. But it surely helps.**
 
-# In[49]:
+# In[ ]:
 
 
 # Split the data into train and test.
 
 
-# In[50]:
+# In[ ]:
 
 
 X = df.drop(['price'], axis=1)
@@ -759,14 +773,14 @@ y = df['price']
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=66)
 
 
-# In[51]:
+# In[ ]:
 
 
 # Applying Feature Scaling ( StandardScaler )
 # You can also Apply MinMaxScaler.
 
 
-# In[52]:
+# In[ ]:
 
 
 sc = StandardScaler()
@@ -783,7 +797,7 @@ X_test = sc.transform(X_test)
 # <a id="there_you_go_7"></a>
 # # 7) Modelling Algos
 
-# In[53]:
+# In[ ]:
 
 
 # Collect all R2 Scores.
@@ -803,7 +817,7 @@ models = ['Linear Regression' , 'Lasso Regression' , 'AdaBoost Regression' , 'Ri
 
 # ## 7.5) GradientBoosting Regression
 
-# In[54]:
+# In[ ]:
 
 
 clf_rf = RandomForestRegressor()
@@ -831,7 +845,7 @@ print('RMSE   : %0.2f ' % rmse)
 print('R2     : %0.2f ' % r2)
 
 
-# In[55]:
+# In[ ]:
 
 
 # wat zit in de variable
@@ -839,9 +853,15 @@ print(clf_rf)
 print(clf_rf.n_estimators)
 
 
+# In[ ]:
+
+
+print(X_test[0])
+
+
 # ## Streamit Code Lego DataSet
 
-# In[56]:
+# In[ ]:
 
 
 # wat zit in de variable
@@ -849,7 +869,7 @@ print(clf_rf.n_estimators)
 #print(LegoX)
 
 
-# In[57]:
+# In[ ]:
 
 
 # wat zit in de variable
@@ -863,7 +883,7 @@ print(clf_rf.n_estimators)
 
 
 
-# In[58]:
+# In[ ]:
 
 
 if st.sidebar.checkbox("Show LijnGrafiek clf_rf"):
@@ -871,14 +891,14 @@ if st.sidebar.checkbox("Show LijnGrafiek clf_rf"):
     st.line_chart(clf_rf)
 
 
-# In[59]:
+# In[ ]:
 
 
 # titel van de pagina
 st.title('Data Analyse van Lego met Streamlit')
 
 
-# In[60]:
+# In[ ]:
 
 
 # display picture
@@ -893,7 +913,7 @@ Foto = st.sidebar.selectbox("Kies Foto", list(Fotos.keys()),0)
 st.image(Fotos[Foto], use_column_width= True, caption= Fotos[Foto])
 
 
-# In[61]:
+# In[ ]:
 
 
 if Foto == "02300BL":
@@ -910,21 +930,33 @@ if Foto == "6437YE":
     st.write("Selected: 6437YE")
 
 
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
 # ### Tuning Parameters
 
-# In[62]:
+# In[ ]:
 
 
 #test
 
 
-# In[63]:
+# In[ ]:
 
 
 get_ipython().system("jupyter nbconvert --output-dir='.\\push' --to script diamonds-in-depth-analysis.ipynb")
 
 
-# In[64]:
+# In[ ]:
 
 
 #sed '757,759d' .\push\diamonds-in-depth-analysis.py
@@ -932,19 +964,30 @@ get_ipython().system("jupyter nbconvert --output-dir='.\\push' --to script diamo
 #tailer.head(open() -n -9 .\push\diamonds-in-depth-analysis.py > .\push\pushreal\diamonds-in-depth-analysis2.py )
 
 
-# In[68]:
+# ## Delete last lines from de python file 
+
+# In[ ]:
 
 
+readFile = open(".\push\pushreal\diamonds-in-depth-analysis2.py")
+
+lines = readFile.readlines()
+
+readFile.close()
+w = open(".\push\pushreal\diamonds-in-depth-analysis2.py",'w')
+w.writelines([item for item in lines[:-40]])
+w.close()
 
 
+# ### Moet 2 keer omdat hij anders niet update.
 
-# In[65]:
+# In[ ]:
 
 
 get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
 
 
-# In[66]:
+# In[ ]:
 
 
 #!git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master

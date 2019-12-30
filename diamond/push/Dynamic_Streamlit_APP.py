@@ -3,7 +3,7 @@
 
 # ## Voeg de Librarys toe.
 
-# In[1]:
+# In[41]:
 
 
 # Initialiseer de librarys
@@ -11,6 +11,7 @@ import pickle
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
 
 
 # In[2]:
@@ -22,6 +23,20 @@ def CheckEmptyString(Variable):
         return 0
     else:
         return Variable
+
+
+# ## Selecteer een CSV file
+
+# In[47]:
+
+
+def file_selector(folder_path='.\EindOpdracht'):
+    filenames = os.listdir(folder_path)
+    selected_filename = st.selectbox('Select a file', filenames)
+    return os.path.join(folder_path, selected_filename)
+
+filename = file_selector()
+st.write('You selected `%s`' % filename)
 
 
 # ## Get Data from de files
@@ -49,6 +64,8 @@ InputList = []
 List1 = [] # np.empty((0,aantal_kolommen-1))
 OutputNaam = ""
 
+
+# ### slider om de range te bepalen
 
 # In[21]:
 
@@ -105,7 +122,7 @@ for j in range(0, Aantal_Kolom):
 st.write("Past 2nd loop")
 
 
-# In[33]:
+# In[34]:
 
 
 X_test = pd.DataFrame(InputList)
@@ -115,18 +132,18 @@ X_test = X_test.drop(Index_Output)
 
 st.write(InputList)
 st.write(type(InputList))
-st.write(X_test2)
+st.write(X_test)
 
-Resultaat = PickleData.predict(X_test2.T)
+Resultaat = PickleData.predict(X_test.T)
 #st.write(Resultaat)
 
 
 # ## Write to Heroku
 
-# In[15]:
+# In[51]:
 
 
-get_ipython().system("jupyter nbconvert --output-dir='.\\EindOpdracht' --to script Dynamic_Streamlit_APP.ipynb")
+get_ipython().system("jupyter nbconvert --output-dir='.\\.\\push' --to script Dynamic_Streamlit_APP.ipynb")
 
 
 # In[ ]:
@@ -137,16 +154,14 @@ get_ipython().system("jupyter nbconvert --output-dir='.\\EindOpdracht' --to scri
 #tailer.head(open() -n -9 .\push\Dynamic_Streamlit_APP.py > .\push\pushreal\Dynamic_Streamlit_APP.py )
 
 
-# In[17]:
+# In[36]:
 
 
-readFile = open(".\EindOpdracht\Dynamic_Streamlit_APP.py")
+readFile = open(".\.\push\pushreal\Dynamic_Streamlit_APP.py")
 
 lines = readFile.readlines()
 
 readFile.close()
-w = open(".\EindOpdracht\Dynamic_Streamlit_APP.py",'w')
+w = open(".\.\push\pushreal\Dynamic_Streamlit_APP.py",'w')
 w.writelines([item for item in lines[:-13]])
 w.close()
-
-
