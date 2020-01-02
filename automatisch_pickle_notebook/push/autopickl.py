@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[ ]:
 
 
 import pickle
@@ -68,7 +68,7 @@ st.write(resultaat)
 
 
 get_ipython().system("jupyter nbconvert --output-dir='./push' --to script autopickl.ipynb")
-get_ipython().system('head -n -7 ./push/autopickl.py > ../automatisch_pickle/autopickl.py')
- get_ipython().system('git -C ../automatisch_pickle commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
-# !git -C ./automatisch_pc commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master
+get_ipython().system('head -n -7 ./push/autopickl.py > ../automatisch_pickle/project.py')
+get_ipython().system('git -C ../automatisch_pickle commit -am "Nieuw commit" | git -C ../automatisch_pickle push heroku master')
+get_ipython().system('git -C ../automatisch_pickle commit -am "Nieuw commit" | git -C ../automatisch_pickle push heroku master')
 
