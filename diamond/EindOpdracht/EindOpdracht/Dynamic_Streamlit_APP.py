@@ -121,32 +121,3 @@ Resultaat = PickleData.predict(X_test2.T)
 #st.write(Resultaat)
 
 
-# ## Write to Heroku
-
-# In[15]:
-
-
-get_ipython().system("jupyter nbconvert --output-dir='.\\EindOpdracht' --to script Dynamic_Streamlit_APP.ipynb")
-
-
-# In[ ]:
-
-
-#sed '757,759d' .\push\diamonds-in-depth-analysis.py
-#tailer.head( -n -9 .\EindOpdracht\Dynamic_Streamlit_APP.py > .\push\pushreal\Dynamic_Streamlit_APP.py )
-#tailer.head(open() -n -9 .\push\Dynamic_Streamlit_APP.py > .\push\pushreal\Dynamic_Streamlit_APP.py )
-
-
-# In[17]:
-
-
-readFile = open(".\EindOpdracht\Dynamic_Streamlit_APP.py")
-
-lines = readFile.readlines()
-
-readFile.close()
-w = open(".\EindOpdracht\Dynamic_Streamlit_APP.py",'w')
-w.writelines([item for item in lines[:-13]])
-w.close()
-
-

@@ -3,7 +3,7 @@
 
 # ## Voeg de Librarys toe.
 
-# In[41]:
+# In[1]:
 
 
 # Initialiseer de librarys
@@ -27,7 +27,7 @@ def CheckEmptyString(Variable):
 
 # ## Selecteer een CSV file
 
-# In[47]:
+# In[3]:
 
 
 def file_selector(folder_path='.\EindOpdracht'):
@@ -41,7 +41,7 @@ st.write('You selected `%s`' % filename)
 
 # ## Get Data from de files
 
-# In[3]:
+# In[4]:
 
 
 PicklePath = "BreastCancerPickle.pkl"
@@ -57,7 +57,7 @@ Output_Categorie = "diagnosis"
 Index_Output = CsvData.columns.get_loc(Output_Categorie)
 
 
-# In[4]:
+# In[5]:
 
 
 InputList = []
@@ -67,7 +67,7 @@ OutputNaam = ""
 
 # ### slider om de range te bepalen
 
-# In[21]:
+# In[6]:
 
 
 number1 = st.sidebar.number_input('Insert a MIN-number')
@@ -87,7 +87,7 @@ st.write('Values:', values)
 
 
 
-# In[22]:
+# In[7]:
 
 
 for i in range(0, Aantal_Kolom):
@@ -102,7 +102,7 @@ print(List1)
 st.write("Past 1st loop")
 
 
-# In[23]:
+# In[8]:
 
 
 for j in range(0, Aantal_Kolom):
@@ -122,7 +122,7 @@ for j in range(0, Aantal_Kolom):
 st.write("Past 2nd loop")
 
 
-# In[34]:
+# In[9]:
 
 
 X_test = pd.DataFrame(InputList)
@@ -140,10 +140,10 @@ Resultaat = PickleData.predict(X_test.T)
 
 # ## Write to Heroku
 
-# In[51]:
+# In[ ]:
 
 
-get_ipython().system("jupyter nbconvert --output-dir='.\\.\\push' --to script Dynamic_Streamlit_APP.ipynb")
+get_ipython().system("jupyter nbconvert --output-dir='..\\push' --to script Dynamic_Streamlit_APP.ipynb")
 
 
 # In[ ]:
@@ -154,14 +154,29 @@ get_ipython().system("jupyter nbconvert --output-dir='.\\.\\push' --to script Dy
 #tailer.head(open() -n -9 .\push\Dynamic_Streamlit_APP.py > .\push\pushreal\Dynamic_Streamlit_APP.py )
 
 
-# In[36]:
+# In[ ]:
 
 
-readFile = open(".\.\push\pushreal\Dynamic_Streamlit_APP.py")
-
+readFile = open(".\EindOpdracht\Dynamic_Streamlit_APP.py")
+# ..\push\pushreal\Dynamic_Streamlit_APP.py
 lines = readFile.readlines()
 
 readFile.close()
-w = open(".\.\push\pushreal\Dynamic_Streamlit_APP.py",'w')
+w = open(".\EindOpdracht\Dynamic_Streamlit_APP.py",'w')
 w.writelines([item for item in lines[:-13]])
 w.close()
+
+
+# ### Moet 2 keer omdat hij anders niet update.
+
+# In[ ]:
+
+
+get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
+
+
+# In[ ]:
+
+
+get_ipython().system('git -C ./push/pushreal commit -am "Nieuw commit" | git -C ./push/pushreal push heroku master')
+
