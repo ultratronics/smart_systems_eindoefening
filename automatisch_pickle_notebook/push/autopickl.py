@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Automatische Streamlit app
+
 # In[1]:
 
 
 import pickle
-
 import streamlit as st
-
 import pandas as pd
 import numpy as np
 
@@ -71,4 +71,10 @@ get_ipython().system("jupyter nbconvert --output-dir='./push' --to script autopi
 get_ipython().system('head -n -7 ./push/autopickl.py > ../automatisch_pickle/project.py')
 get_ipython().system('git -C ../automatisch_pickle commit -am "Nieuw commit" | git -C ../automatisch_pickle push heroku master')
 get_ipython().system('git -C ../automatisch_pickle commit -am "Nieuw commit" | git -C ../automatisch_pickle push heroku master')
+
+
+# In[ ]:
+
+
+
 
